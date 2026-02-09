@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Will you be my valentine?</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#fff0f6; --accent:#ff4da6; --muted:#6b6b6b; }
+  *{box-sizing:border-box}
+  html,body{height:100%; overflow: hidden;}
+  body{
+    margin:0;
+    font-family:"Nunito",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background:linear-gradient(180deg,#fff2f8 0%, #fff0f6 50%, #fff7fb 100%);
+    display:flex; align-items:center; justify-content:center; padding:24px; color:#222;
+  }
+  .card{
+    width:100%; max-width:500px; background:white; border-radius:16px;
+    box-shadow:0 12px 30px rgba(6,6,7,0.12); padding:32px; text-align:center; position:relative;
+  }
+  .intro-text{ font-size:20px; line-height:1.4; margin-bottom:28px; color:var(--muted); }
+  .btn-row{ display:flex; gap:18px; justify-content:center; margin-top:8px; flex-wrap:wrap; }
+  .btn{
+    background:var(--accent); color:white; border:none; padding:14px 22px;
+    border-radius:12px; font-weight:700; font-size:16px; cursor:pointer;
+    box-shadow:0 8px 18px rgba(255,77,166,0.18); transition:transform .14s ease;
+  }
+  .btn.secondary{ background:#f3f3f3; color:#444; border:2px solid #eee; }
+  .stage{display:none}
+  .stage.active{display:block}
+  .ask-title{ font-size:26px; font-weight:800; color:#222; margin-bottom:18px; }
+  .heart{ font-size:36px; animation:float 3s ease-in-out infinite; display:inline-block; }
+  @keyframes float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .confetti { position: fixed; width: 10px; height: 10px; background-color: #ff4da6; top: -10px; z-index: 1000; }
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <!-- Stage 1 -->
+  <div class="stage active" id="stage-1">
+    <div class="intro-text">Hey baby, I know we've been having some issues lately, but I just wanted to ask one little question if it’s okay...</div>
+    <div class="btn-row">
+      <button class="btn" id="okBtn">Okay</button>
+    </div>
+  </div>
+
+  <!-- Stage 2 -->
+  <div class="stage" id="stage-2">
+    <div class="ask-title">Adrienne, will you be my valentine?</div>
+    <div class="btn-row" style="position:relative; height: 100px;">
+      <button class="btn" id="yesBtn">YES 💖</button>
+      <button class="btn secondary" id="noBtn" style="position: absolute;">NO</button>
+    </div>
+  </div>
+
+  <!-- Stage 3 -->
+  <div class="stage" id="stage-3">
+    <div class="heart">💖</div><div class="heart">🌸</div><div class="heart">💖</div>
+    <div class="ask-title">That’s the best decision you could’ve made!</div>
+    <p>Thank you for letting me show you the best day ever. I love you pretty, gorgeous, stunning, beautiful, amazing lady! 😘😍</p>
+  </div>
+</div>
+
+<script>
+  const stage1 = document.getElementById('stage-1');
+  const stage2 = document.getElementById('stage-2');
+  const stage3 = document.getElementById('stage-3');
+  const okBtn = document.getElementById('okBtn');
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+
+  // Move to Stage 2
+  okBtn.addEventListener('click', () => {
+    stage1.classList.remove('active');
+    stage2.classList.add('active');
+  });
+
+  // "No" button dodges the mouse
+  noBtn.addEventListener('mouseover', () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+    noBtn.style.position = 'fixed';
+  });
+
+  // Success!
+  yesBtn.addEventListener('click', () => {
+    stage2.classList.remove('active');
+    stage3.classList.add('active');
+    createConfetti();
+  });
+
+  function createConfetti() {
+    for(let i=0; i<50; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.backgroundColor = ['#ff4da6','#ff85c1','#feb1d3'][Math.floor(Math.random()*3)];
+      c.style.animation = `fall ${Math.random()*3 + 2}s linear forwards`;
+      document.body.appendChild(c);
+    }
+  }
+</script>
+
+<style>
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); }
+  }
+</style>
+</body>
+</html>
